@@ -38,7 +38,6 @@ func mongodbDefaultURI() string {
 	}
 	var mongodb_uri = "mongodb://" + user_prefix + hostname + port + database
 
-	glog.Info("Mongo URI :" + mongodb_uri)
 	return mongodb_uri
 }
 
