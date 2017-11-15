@@ -20,7 +20,26 @@ func mongodbDefaultURI() string {
 	if u := os.Getenv("MONGODB_URL"); u != "" {
 		return u
 	}
-	return "mongodb://localhost:27017"
+	var user_prefix = ""
+	var hostname = "localhost"
+	var port = ":27017"
+	var database = ""
+	if user := os.Getenv("MONGODB_USERNAME"); user != "" {
+		user_prefix = fmt.Sprintf("%s:%s@", user, os.Getenv("MONGODB_PASSWORD"))
+	}
+	if host_env := os.Getenv("MONGODB_HOST"); host_env != "" {
+		hostname = host_env
+	}
+	if port_env := os.Getenv("MONGODB_PORT"); port_env != "" {
+		port = ":" + port_env
+	}
+	if database_env := os.Getenv("MONGODB_DATABASE"); database_env != "" {
+		database = "/" + database_env
+	}
+	var mongodb_uri = "mongodb://" + user_prefix + hostname + port + database
+
+	glog.Info("Mongo URI :" + mongodb_uri)
+	return mongodb_uri
 }
 
 var (
